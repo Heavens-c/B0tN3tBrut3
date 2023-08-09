@@ -27,9 +27,29 @@ for ip in ips:
 print("\n")
 
 def generate_random_password():
-    length = random.randint(8, 16)  # Random password length between 8 and 16
-    characters = string.ascii_letters + string.digits + string.punctuation
-    return ''.join(random.choice(characters) for _ in range(length))
+    length = random.randint(12, 20)  # Random password length between 12 and 20
+    lower_case = string.ascii_lowercase
+    upper_case = string.ascii_uppercase
+    digits = string.digits
+    special_characters = string.punctuation
+
+    # Ensure at least one character from each category
+    password = [
+        random.choice(lower_case),
+        random.choice(upper_case),
+        random.choice(digits),
+        random.choice(special_characters)
+    ]
+
+    # Fill the rest of the password with random characters
+    remaining_length = length - len(password)
+    all_characters = lower_case + upper_case + digits + special_characters
+    password.extend(random.choice(all_characters) for _ in range(remaining_length))
+
+    # Shuffle the characters to ensure randomness
+    random.shuffle(password)
+
+    return ''.join(password)
 
 class Router(threading.Thread):
     def __init__(self, ip):
